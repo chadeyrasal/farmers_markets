@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require './lib/farmers_markets'
+
+FarmersMarkets::Controller.new.call

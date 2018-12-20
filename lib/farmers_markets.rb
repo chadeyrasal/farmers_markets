@@ -1,6 +1,2 @@
-require "farmers_markets/version"
-
-module FarmersMarkets
-  class Error < StandardError; end
-  # Your code goes here...
-end
+require_relative "./farmers_markets/version"
+require_relative './farmers_markets/controller'
