@@ -1,16 +1,13 @@
 class FarmersMarkets::Market
-
-# a market has a name
-# a market has a location or postcode
-# a market has a district
-# a market has a phone number
-# a market has a email
-# a market has a website
+  
+  attr_accessor :name, :location, :district, :phone_number, :email, :website
   
   @@all = []
   
   def self.all
-    @@all
+#    @@all
+    puts "Market 1 - London Fields - E8"
+    puts "Market 2 - Islington Town Hall - N1"
   end
   
 end

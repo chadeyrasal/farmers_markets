@@ -1,12 +1,13 @@
 class FarmersMarkets::District
 
-# a district has a name
-# a district has a code
-
+  attr_accessor :name, :code
+  
   @@all = []
   
   def self.all
-    @@all
+#    @@all
+    puts "District 1 - Dundee - DD"
+    puts "District 2 - Bath - BA"
   end
   
 end

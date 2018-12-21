@@ -1,8 +1,9 @@
 class FarmersMarkets::Controller
   
   def call
-    puts "Welcome Local Food Hunters!"
+    puts "Welcome Local Food Hunter!"
     main_prompt
+    puts "What would you like to do?"
     user_input = gets.strip.downcase
     case user_input
     when "menu"
@@ -17,17 +18,22 @@ class FarmersMarkets::Controller
       list_markets_in_district
     when "market"
       market_details
+    when "exit"
+      goodbye
+      exit
+    else
+      puts "I am not sure I understand what you want"
     end
-    until user_input == "exit"
-      main_prompt
+    while user_input != "exit"
+      puts "What would you like to do now?"
       user_input = gets.strip.downcase
     end
+    goodbye
   end
   
   def main_prompt
     puts "To see your options, type in 'menu'"
     puts "To leave the application, type in 'exit'"
-    puts "What would you like to do?"  
   end
   
   def display_menu
@@ -40,14 +46,16 @@ class FarmersMarkets::Controller
     puts " "
   end
   
+  def goodbye
+    puts "Goodbye, see you for the next market!"
+  end
+  
   def list_markets
-    puts "Market 1 - London Fields - E8"
-    puts "Market 2 - Islington Town Hall - N1"
+    FarmersMarkets::Market.all
   end
   
   def list_districts
-    puts "District 1 - Dundee - DD"
-    puts "District 2 - Bath - BA"
+    FarmersMarkets::District.all
   end
   
   def list_districts_with_markets
