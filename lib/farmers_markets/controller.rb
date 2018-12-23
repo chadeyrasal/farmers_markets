@@ -2,7 +2,6 @@ class FarmersMarkets::Controller
   
   def call
     puts "Welcome Local Food Hunter!"
-    main_prompt
     puts "What would you like to do?"
     user_input = gets.strip.downcase
     case user_input
@@ -31,13 +30,13 @@ class FarmersMarkets::Controller
     goodbye
   end
   
-  def main_prompt
-    puts "To see your options, type in 'menu'"
-    puts "To leave the application, type in 'exit'"
+  def call
+    puts "Welcome Local Food Hunter!"
+    menu
+    goodbye
   end
   
-  def display_menu
-    puts " "
+  def menu
     puts "To list all Farmers Markets in the UK, enter 'list markets'"
     puts "To list all UK districts, enter 'list districts'"
     puts "To list all districts that have at least one Farmers Market, enter 'list districts with markets'"
