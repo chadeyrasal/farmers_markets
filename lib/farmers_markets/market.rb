@@ -1,5 +1,3 @@
-require 'pry'
-
 class FarmersMarkets::Market
   
   attr_accessor :name, :postcode, :district, :phone_number, :email, :website
