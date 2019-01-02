@@ -6,8 +6,14 @@ class FarmersMarkets::District
   
   def self.all
 #    @@all
-    puts "District 1 - Dundee - DD"
-    puts "District 2 - Bath - BA"
+    district1 = self.new
+    district1.name = "Dundee"
+    district1.code = "DD"
+    district2 = self.new
+    district2.name = "Aberdeen"
+    district2.code = "AB"
+    
+    [district1, district2]
   end
   
 end

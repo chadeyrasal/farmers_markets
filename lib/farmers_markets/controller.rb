@@ -50,12 +50,18 @@ class FarmersMarkets::Controller
   
   def list_markets
     space
-    FarmersMarkets::Market.all
+    @markets = FarmersMarkets::Market.all
+    @markets.each.with_index(1) do |market, index|
+      puts "#{index}. #{market.name} - #{market.district}"
+    end
   end
   
   def list_districts
     space
-    FarmersMarkets::District.all
+    @districts = FarmersMarkets::District.all
+    @districts.each.with_index(1) do |district, index|
+      puts "#{index}. #{district.name} - #{district.code}"
+    end
   end
   
   def market_details
