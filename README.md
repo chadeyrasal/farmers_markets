@@ -1,28 +1,22 @@
 # FarmersMarkets
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/farmers_markets`. To experiment with that code, run `bin/console` for an interactive prompt.
+Welcome to Farmers Markets UK! 
 
-TODO: Delete this and the text above, and describe your gem
+In the application you will be able to get a list of farmers markets in a specific district of the UK. For each of the market that is listed, additional information is available upon request. 
+
+All the information comes from the FARMA - National Farmers' Retail and Markets Association's website. 
+
+Have fun and don't forget to eat local food!
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'farmers_markets'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+To install the gem, please type in the below.
 
     $ gem install farmers_markets
 
 ## Usage
 
-TODO: Write usage instructions here
+Usage of Farmers Markets UK is very simple. Once you launch the application, follow the instructions that appear on the prompt as you go along and you will be able to get all the info you need on your local markets. 
 
 ## Development
 

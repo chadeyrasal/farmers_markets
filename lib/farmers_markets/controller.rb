@@ -1,13 +1,13 @@
 class FarmersMarkets::Controller
   
   def call
+    space
     puts "   -------------------------------   "
     puts "  |  Welcome, Local Food Hunter!  |  "
     puts "   -------------------------------   "
     
     create_markets
     add_attributes_to_markets
-    
     what_district
   end
   
