@@ -1,93 +1,14 @@
 class FarmersMarkets::Controller
   
   def call
-    puts "Welcome Local Food Hunter!"
+    puts "   -------------------------------   "
+    puts "  |  Welcome, Local Food Hunter!  |  "
+    puts "   -------------------------------   "
     
     create_markets
     add_attributes_to_markets
     
     what_district
-    
-    puts "Would you like more information on any of the above markets? Enter 'Y' or 'N'"
-    user_input = gets.strip
-    if user_input == "Y"
-      puts "Please enter the number of the market you would like more information about:"
-      number_input = gets.strip.to_i
-      markets_sorted = FarmersMarkets::Market.all.sort_by{|market| market.name}
-      markets_sorted.each.with_index(1) do |market, index|
-        if index == number_input
-          puts "|  #{market.name}  |"
-          puts "    -  #{market.telephone}"
-          puts "    -  #{market.email}"
-          puts "    -  #{market.website}"
-          puts "    -  Membership: #{market.membership}"
-        end
-      end
-    elsif user_input == "N"
-      puts "To continue browsing farmers markets, enter 'continue'"
-      puts "To leave the application, enter 'leave'"
-      user_input = gets.strip
-      if user_input == 'continue'
-        puts "What district are you interested in?"
-      elsif user_input == 'leave'
-        goodbye
-      end
-    else
-      "I am not sure I understand what your answer"
-    end
-    menu
-    goodbye
-  end
-  
-  def menu
-    space
-    puts "To list districts that have farmers markets, enter 'ld'"
-    puts "To list all farmers markets in a specific district, enter 'lm'"
-    puts "To have the details of a specific market, enter 'market'"
-    puts "To leave the application, enter 'exit'"
-    space
-    user_input = nil
-    while user_input != "exit"
-      space
-      puts "What would you like to do?"
-      space
-      user_input = gets.strip.downcase
-      case user_input
-      when "ld"
-        list_districts
-      when "lm"
-        list_markets
-      when "market"
-        market_details
-      when "exit"
-        goodbye
-        exit
-      else
-        space
-        puts "I am not sure I understand what you want"
-        puts "What would you like to do?"
-        space
-      end
-    end
-    
-  end
-  
-  def goodbye
-    space
-    puts "Goodbye, see you for the next market!"
-    exit
-  end
-  
-  def space
-    puts " "
-  end
-  
-  def list_markets
-    space
-    markets_sorted = FarmersMarkets::Market.all.sort_by{|market| market.name}
-    markets_sorted.each.with_index(1) do |market, index|
-      puts "#{index}. #{market.name} - #{market.district}"
-    end
   end
   
   def create_markets
@@ -103,11 +24,26 @@ class FarmersMarkets::Controller
     end
   end
   
-  def list_districts
+  def space
+    puts " "
+  end
+  
+  def goodbye
     space
-    districts_sorted = FarmersMarkets::Market.districts.sort_by{|district| district}
-    districts_sorted.each.with_index(1) do |district, index|
-      puts "#{index}. #{district}"
+    puts "Goodbye, see you for the next market!"
+    exit
+  end
+  
+  def what_district
+    space
+    puts "What district are you interested in?"
+    user_input = gets.strip.upcase
+    if FarmersMarkets::Market.districts.include?(user_input)
+      list_markets_by_district(user_input)
+      more_info
+    else
+      puts "There is no market in this district"
+      continue_or_leave
     end
   end
   
@@ -120,32 +56,63 @@ class FarmersMarkets::Controller
     end
   end
   
-  def what_district
-    puts "What district are you interested in?"
-    user_input = gets.strip
-    if FarmersMarkets::Market.districts.include?(user_input)
-      list_markets_by_district(user_input)
-    else
-      puts "There is no market in this district"
-      continue_or_leave
-    end
-  end
-  
   def continue_or_leave
-    puts "To continue browsing farmers markets, enter 'continue'"
-    puts "To leave the application, enter 'leave'"
-    user_input = gets.strip
-    if user_input == 'continue'
-      what_district
-    elsif user_input == 'leave'
-      goodbye
+    user_input = nil
+    while user_input != "leave"
+      space
+      puts "To continue browsing farmers markets, enter 'continue'"
+      puts "To leave the application, enter 'leave'"
+      user_input = gets.strip.downcase
+      if user_input == 'continue'
+        what_district
+      elsif user_input == 'leave'
+        goodbye
+      else
+        space
+        meaning
+      end
     end
   end
   
   def more_info
-    puts "Would you like more information on any of the above markets? Enter 'Y' or 'N'"
-    user_input = gets.strip
-    if user_input == "Y"
+    space
+    user_input = nil
+    until user_input == "Y" || user_input == "N"
+      puts "Would you like more information on any of the above markets? Enter 'Y' or 'N'"
+      user_input = gets.strip.upcase
+      if user_input == "Y"
+        display_details
+        continue_or_leave
+      elsif user_input == "N"
+        continue_or_leave
+      else
+        space
+        meaning
+      end
+    end
+  end
+  
+  def display_details
+    space
+    puts "Please enter the number of the market you would like more information about:"
+    user_input = gets.strip.to_i
+    markets_sorted = FarmersMarkets::Market.all.sort_by{|market| market.name}
+    markets_sorted.each.with_index(1) do |market, index|
+      if index == user_input
+        space
+        puts "The markets in your district of interest are:"
+        space
+        puts "|  #{market.name}  |"
+        puts "    -  #{market.telephone}"
+        puts "    -  #{market.email}"
+        puts "    -  #{market.website}"
+        puts "    -  Membership: #{market.membership}"
+      end
+    end
+  end
+  
+  def meaning
+    puts "I am not sure I understand what you mean"
   end
   
 end
