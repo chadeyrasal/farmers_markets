@@ -2,6 +2,7 @@ class FarmersMarkets::Controller
   
   def call
     puts "Welcome Local Food Hunter!"
+    create_markets
     menu
     goodbye
   end
@@ -54,6 +55,11 @@ class FarmersMarkets::Controller
     @markets.each.with_index(1) do |market, index|
       puts "#{index}. #{market.name} - #{market.district}"
     end
+  end
+  
+  def create_markets
+    markets_array = Scraper.scrape_markets
+    FarmersMarkets::Market.create_from_collection(markets_array)
   end
   
   def list_districts

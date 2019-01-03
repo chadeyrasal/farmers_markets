@@ -12,7 +12,7 @@ class Scraper
       this_market[:name] = member.css("h4").text
       this_market[:postcode] = member.css("div.postcode").text
       this_market[:details_link] = member.css("a.read-more").attribute("href").value
-      this_market[:district] = member.css("div.postcode").text.gsub(/\d+\s\d[a-z]+\z/i, "")
+      this_market[:district] = member.css("div.postcode").text.gsub(/\d+\s?\d[a-z]+\z/i, "").upcase
       my_markets << this_market
     end
     my_markets
