@@ -6,13 +6,7 @@ class FarmersMarkets::Controller
     create_markets
     add_attributes_to_markets
     
-    puts "What district are you interested in?"
-    user_input = gets.strip
-    if FarmersMarkets::Market.districts.include?(user_input)
-      list_markets_by_district(user_input)
-    else
-      puts "There is no market in this district"
-    end
+    what_district
     
     puts "Would you like more information on any of the above markets? Enter 'Y' or 'N'"
     user_input = gets.strip
@@ -81,6 +75,7 @@ class FarmersMarkets::Controller
   def goodbye
     space
     puts "Goodbye, see you for the next market!"
+    exit
   end
   
   def space
@@ -125,13 +120,32 @@ class FarmersMarkets::Controller
     end
   end
   
-  def market_details
-    space
-    puts "Name: East Farleigh Market"
-    puts "Location: ME15 0JL"
-    puts "Phone Number: 01732833976"
-    puts "Email: bob@kfma.org.uk"
-    puts "Website: https://www.kfma.org.uk"
+  def what_district
+    puts "What district are you interested in?"
+    user_input = gets.strip
+    if FarmersMarkets::Market.districts.include?(user_input)
+      list_markets_by_district(user_input)
+    else
+      puts "There is no market in this district"
+      continue_or_leave
+    end
+  end
+  
+  def continue_or_leave
+    puts "To continue browsing farmers markets, enter 'continue'"
+    puts "To leave the application, enter 'leave'"
+    user_input = gets.strip
+    if user_input == 'continue'
+      what_district
+    elsif user_input == 'leave'
+      goodbye
+    end
+  end
+  
+  def more_info
+    puts "Would you like more information on any of the above markets? Enter 'Y' or 'N'"
+    user_input = gets.strip
+    if user_input == "Y"
   end
   
 end
