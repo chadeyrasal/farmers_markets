@@ -17,19 +17,23 @@ class FarmersMarkets::Market
     markets_array.each{|market| self.new(market)}
   end
   
-  def add_attributes_to_markets
-    
+  def add_market_attributes(attributes)
+    attributes.each do |key, value|
+      self.send("#{key}=", value)
+    end
   end
-  
+
   def self.all
     @@all
-#    market1 = self.new
-#    market1.name = "London Fields Farmers Market"
-#    market1.district = "E8"
-#    market2 = self.new
-#    market2.name = "Islington Town Hall Farmers Market"
-#    market2.district = "N1"
-#    [market1, market2]
+  end
+  
+  def self.districts
+    my_districts = @@all.collect{|market| market.district}.uniq
+    my_districts.delete_if {|district| district == "0000"}
+    my_districts.delete_if {|district| district == "ENTER POSTCODE"}
+    my_districts.delete_if {|district| district == ""}
+    my_districts.delete_if {|district| district == "H65ED39"}
+    my_districts
   end
   
 end

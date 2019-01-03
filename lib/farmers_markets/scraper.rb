@@ -12,14 +12,14 @@ class Scraper
       this_market[:name] = member.css("h4").text
       this_market[:postcode] = member.css("div.postcode").text
       this_market[:details_link] = member.css("a.read-more").attribute("href").value
-      this_market[:district] = member.css("div.postcode").text.gsub(/\d+\s?\d[a-z]+\z/i, "").upcase
+      this_market[:district] = member.css("div.postcode").text.gsub(/\d+[a-z]?\s?\d[a-z]+.\z/i, "").upcase
       my_markets << this_market
     end
     my_markets
   end
   
-  def self.scrape_contact_details
-    doc = Nokogiri::HTML(open("http://www.farma.org.uk/members/view/abbey-leys-farm-farmers-market/"))
+  def self.scrape_contact_details(market_url)
+    doc = Nokogiri::HTML(open(market_url))
     details_doc = doc.css("div.row-fluid")
     contact_details = {}
     details_doc.css("p").each do |detail|
