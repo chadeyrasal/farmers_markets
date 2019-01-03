@@ -17,15 +17,22 @@ class Scraper
     my_markets
   end
   
-  def self.scrape_contact_details(market_url)
-    market_url = "http://www.farma.org.uk/members/view/abbey-leys-farm-farmers-market/"
-    doc = Nokogiri::HTML(open(market_url))
-    market_details = []
-    doc.css("row-fluid").each do |detail|
-      contact_details = {}
-      binding.pry
-      contact_details[:address] = detail.css("")
+  def self.scrape_contact_details
+    doc = Nokogiri::HTML(open("http://www.farma.org.uk/members/view/abbey-leys-farm-farmers-market/"))
+    details_doc = doc.css("div.row-fluid")
+    contact_details = {}
+    details_doc.css("p").each do |detail|
+      if detail.text.include?("Telephone")
+        contact_details[:telephone] = detail.text
+      elsif detail.text.include?("Email")
+        contact_details[:email] = detail.text
+      elsif detail.text.include?("Website")
+        contact_details[:website] = detail.text
+      else
+        contact_details[:membership] = detail.text
+      end
     end
+    contact_details
   end
   
 end

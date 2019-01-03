@@ -1,6 +1,6 @@
 class FarmersMarkets::Market
   
-  attr_accessor :name, :postcode, :district, :phone_number, :email, :website, :membership
+  attr_accessor :name, :postcode, :district, :telephone, :email, :website, :membership
   
   @@all = []
   
