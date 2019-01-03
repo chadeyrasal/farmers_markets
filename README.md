@@ -10,9 +10,11 @@ Have fun and don't forget to eat local food!
 
 ## Installation
 
-To install the gem, please type in the below.
+In your terminal, type in the below: 
+'git clone git@github.com:chadeyrasal/farmers_markets.git'
 
-    $ gem install farmers_markets
+Then, to launch the application, type in: 
+'ruby bin/farmersmarkets'
 
 ## Usage
 
