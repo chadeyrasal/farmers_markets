@@ -2,9 +2,45 @@ class FarmersMarkets::Controller
   
   def call
     puts "Welcome Local Food Hunter!"
+    
     create_markets
     add_attributes_to_markets
     
+    puts "What district are you interested in?"
+    user_input = gets.strip
+    if FarmersMarkets::Market.districts.include?(user_input)
+      list_markets_by_district(user_input)
+    else
+      puts "There is no market in this district"
+    end
+    
+    puts "Would you like more information on any of the above markets? Enter 'Y' or 'N'"
+    user_input = gets.strip
+    if user_input == "Y"
+      puts "Please enter the number of the market you would like more information about:"
+      number_input = gets.strip.to_i
+      markets_sorted = FarmersMarkets::Market.all.sort_by{|market| market.name}
+      markets_sorted.each.with_index(1) do |market, index|
+        if index == number_input
+          puts "|  #{market.name}  |"
+          puts "    -  #{market.telephone}"
+          puts "    -  #{market.email}"
+          puts "    -  #{market.website}"
+          puts "    -  Membership: #{market.membership}"
+        end
+      end
+    elsif user_input == "N"
+      puts "To continue browsing farmers markets, enter 'continue'"
+      puts "To leave the application, enter 'leave'"
+      user_input = gets.strip
+      if user_input == 'continue'
+        puts "What district are you interested in?"
+      elsif user_input == 'leave'
+        goodbye
+      end
+    else
+      "I am not sure I understand what your answer"
+    end
     menu
     goodbye
   end
@@ -77,6 +113,15 @@ class FarmersMarkets::Controller
     districts_sorted = FarmersMarkets::Market.districts.sort_by{|district| district}
     districts_sorted.each.with_index(1) do |district, index|
       puts "#{index}. #{district}"
+    end
+  end
+  
+  def list_markets_by_district(user_input)
+    if my_district = FarmersMarkets::Market.districts.find{|district| district == user_input}
+      markets_sorted = FarmersMarkets::Market.all.sort_by{|market| market.name}
+      markets_sorted.each.with_index(1) do |market, index|
+        puts "#{index}. #{market.name} - #{market.postcode.upcase}" if market.district == user_input
+      end
     end
   end
   
