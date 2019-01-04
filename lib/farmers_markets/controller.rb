@@ -1,10 +1,12 @@
+require 'colorize'
+
 class FarmersMarkets::Controller
   
   def call
     space
-    puts "   -------------------------------   "
-    puts "  |  Welcome, Local Food Hunter!  |  "
-    puts "   -------------------------------   "
+    puts "   -------------------------------   ".colorize(:green)
+    puts "  |  Welcome, Local Food Hunter!  |  ".colorize(:green)
+    puts "   -------------------------------   ".colorize(:green)
     
     create_markets
     add_attributes_to_markets
@@ -30,7 +32,7 @@ class FarmersMarkets::Controller
   
   def goodbye
     space
-    puts "Goodbye, see you for the next market!"
+    puts "Goodbye, see you for the next market!".colorize(:green)
     exit
   end
   
@@ -42,7 +44,8 @@ class FarmersMarkets::Controller
       list_markets_by_district(user_input)
       more_info
     else
-      puts "There is no market in this district"
+      space
+      puts "There is no market in this district".colorize(:red)
       continue_or_leave
     end
   end
@@ -51,7 +54,7 @@ class FarmersMarkets::Controller
     if my_district = FarmersMarkets::Market.districts.find{|district| district == user_input}
       markets_sorted = FarmersMarkets::Market.all.sort_by{|market| market.name}
       markets_sorted.each.with_index(1) do |market, index|
-        puts "#{index}. #{market.name} - #{market.postcode.upcase}" if market.district == user_input
+        puts "#{index}. #{market.name} - #{market.postcode.upcase}".colorize(:yellow) if market.district == user_input
       end
     end
   end
@@ -100,19 +103,17 @@ class FarmersMarkets::Controller
     markets_sorted.each.with_index(1) do |market, index|
       if index == user_input
         space
-        puts "The markets in your district of interest are:"
-        space
-        puts "|  #{market.name}  |"
-        puts "    -  #{market.telephone}"
-        puts "    -  #{market.email}"
-        puts "    -  #{market.website}"
-        puts "    -  Membership: #{market.membership}"
+        puts "|  #{market.name}  |".colorize(:blue)
+        puts "    -  #{market.telephone}".colorize(:blue)
+        puts "    -  #{market.email}".colorize(:blue)
+        puts "    -  #{market.website}".colorize(:blue)
+        puts "    -  Membership: #{market.membership}".colorize(:blue)
       end
     end
   end
   
   def meaning
-    puts "I am not sure I understand what you mean"
+    puts "I am not sure I understand what you mean".colorize(:red)
   end
   
 end
