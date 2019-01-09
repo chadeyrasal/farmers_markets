@@ -1,41 +1,32 @@
-require 'colorize'
-
 class FarmersMarkets::Controller
-  
+
   def call
     space
     puts "   -------------------------------   ".colorize(:green)
     puts "  |  Welcome, Local Food Hunter!  |  ".colorize(:green)
     puts "   -------------------------------   ".colorize(:green)
-    
+
     create_markets
-    add_attributes_to_markets
+#    add_attributes_to_markets
     what_district
   end
-  
+
   def create_markets
     markets_array = Scraper.scrape_markets
     FarmersMarkets::Market.create_from_collection(markets_array)
   end
-  
-  def add_attributes_to_markets
-    FarmersMarkets::Market.all.each do |market|
-      market_url = "http://www.farma.org.uk" + market.details_link
-      attributes = Scraper.scrape_contact_details(market_url)
-      market.add_market_attributes(attributes)
-    end
-  end
-  
+
+
   def space
     puts " "
   end
-  
+
   def goodbye
     space
     puts "Goodbye, see you for the next market!".colorize(:green)
     exit
   end
-  
+
   def what_district
     space
     puts "What district are you interested in?"
@@ -49,7 +40,7 @@ class FarmersMarkets::Controller
       continue_or_leave
     end
   end
-  
+
   def list_markets_by_district(user_input)
     if my_district = FarmersMarkets::Market.districts.find{|district| district == user_input}
       markets_sorted = FarmersMarkets::Market.all.sort_by{|market| market.name}
@@ -58,7 +49,7 @@ class FarmersMarkets::Controller
       end
     end
   end
-  
+
   def continue_or_leave
     user_input = nil
     while user_input != "leave"
@@ -76,7 +67,7 @@ class FarmersMarkets::Controller
       end
     end
   end
-  
+
   def more_info
     space
     user_input = nil
@@ -94,26 +85,34 @@ class FarmersMarkets::Controller
       end
     end
   end
-  
+
+
+  def add_attributes_to_markets
+    FarmersMarkets::Market.all.each do |market|
+      market_url = "http://www.farma.org.uk" + market.details_link
+      attributes = Scraper.scrape_contact_details(market_url)
+      market.add_market_attributes(attributes)
+    end
+  end
+
   def display_details
     space
     puts "Please enter the number of the market you would like more information about:"
     user_input = gets.strip.to_i
-    markets_sorted = FarmersMarkets::Market.all.sort_by{|market| market.name}
-    markets_sorted.each.with_index(1) do |market, index|
-      if index == user_input
-        space
-        puts "|  #{market.name}  |".colorize(:blue)
-        puts "    -  #{market.telephone}".colorize(:blue)
-        puts "    -  #{market.email}".colorize(:blue)
-        puts "    -  #{market.website}".colorize(:blue)
-        puts "    -  Membership: #{market.membership}".colorize(:blue)
-      end
-    end
+    my_market = FarmersMarkets::Market.all[user_input - 1]
+    market_url = "http://www.farma.org.uk" + my_market.details_link
+    attributes = Scraper.scrape_contact_details(market_url)
+    my_market.add_market_attributes(attributes)
+    space
+    puts "|  #{my_market.name}  |".colorize(:blue)
+    puts "    -  #{my_market.telephone}".colorize(:blue)
+    puts "    -  #{my_market.email}".colorize(:blue)
+    puts "    -  #{my_market.website}".colorize(:blue)
+    puts "    -  Membership: #{my_market.membership}".colorize(:blue)
   end
-  
+
   def meaning
     puts "I am not sure I understand what you mean".colorize(:red)
   end
-  
+
 end

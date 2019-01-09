@@ -1,9 +1,7 @@
-require 'open-uri'
-require 'nokogiri'
-
 class Scraper
-  
+
   def self.scrape_markets
+    puts "Scraping markets"
     doc = Nokogiri::HTML(open("http://www.farma.org.uk/members-map/"))
     my_markets = []
     doc.css("div.map-member").each do |member|
@@ -16,8 +14,9 @@ class Scraper
     end
     my_markets
   end
-  
+
   def self.scrape_contact_details(market_url)
+    puts "Scraping details"
     doc = Nokogiri::HTML(open(market_url))
     details_doc = doc.css("div.row-fluid")
     contact_details = {}
@@ -34,5 +33,5 @@ class Scraper
     end
     contact_details
   end
-  
+
 end
