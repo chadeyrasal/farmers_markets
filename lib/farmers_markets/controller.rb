@@ -7,7 +7,6 @@ class FarmersMarkets::Controller
     puts "   -------------------------------   ".colorize(:green)
 
     create_markets
-#    add_attributes_to_markets
     what_district
   end
 
@@ -83,15 +82,6 @@ class FarmersMarkets::Controller
         space
         meaning
       end
-    end
-  end
-
-
-  def add_attributes_to_markets
-    FarmersMarkets::Market.all.each do |market|
-      market_url = "http://www.farma.org.uk" + market.details_link
-      attributes = Scraper.scrape_contact_details(market_url)
-      market.add_market_attributes(attributes)
     end
   end
 
