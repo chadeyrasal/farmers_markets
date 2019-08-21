@@ -24,6 +24,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.17"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", ">= 0"
-  spec.add_development_dependency "nokogiri", ">= 0"
+  spec.add_development_dependency "nokogiri", ">= 1.10.4"
   spec.add_development_dependency "pry", ">= 0"
 end
